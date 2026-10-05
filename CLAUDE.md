@@ -36,3 +36,6 @@ Instagram reels (1080x1920, 30fps) of Quran verses for the page **@noore_rezvan*
 - Never clone or imitate a real person's voice. That includes deceased narrators such as Naser Tahmasb. Use genuine recordings only (user-supplied or published).
 - The user is on the Pro plan and cares about usage, so reuse library assets, take few screenshots, and use contact sheets instead of many images.
 - Name outputs automatically as `output/<project>_<version>.mp4`. Keep earlier versions; make a new version file (e.g. `_v2`) instead of overwriting.
+
+## Cloud-session limits (learned)
+The cloud sandbox has no access to the user's Mac. Pexels, quranicaudio, qurancdn and emadionline are blocked unless the environment's network policy allows them. Fonts (Azar, YekanBakh, Montserrat), `library/footage/` and `models/` are not in the repo, so a real render needs them pushed or the policy opened.
