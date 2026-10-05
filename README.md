@@ -1,2 +1,57 @@
-# Claude-Credit
-This is a repo to use 100$ Claude Credit
+# ویدیوهای قرآنی (ریلز ۹:۱۶)
+
+ترجمه‌ی تصویری آیات قرآن با فوتیج واقعی، تلاوت، و ترجمه‌ی فارسی تکه‌تکه که با صدا همگام می‌شود.
+
+## ساختار پوشه‌ها
+
+```
+README.md
+tools/
+  render.py           موتور ساخت ویدیو (برای همه‌ی پروژه‌ها مشترک)
+  transcribe.sh       زمان‌بندی کلمه‌به‌کلمه‌ی صوت با whisper
+models/               مدل whisper (ggml-medium-q5_0.bin)
+library/              منابع مشترک، قابل استفاده در همه‌ی ویدیوها
+  footage/<موضوع>/<توضیح>_<شناسه‌ی pexels>.mp4
+  footage/INDEX.csv   فهرست فوتیج‌ها با برچسب‌های موضوعی و لینک منبع
+  recitations/<قاری>/ تلاوت‌ها
+  translations/<مترجم_گوینده>/  ترجمه‌های صوتی
+  AUDIO_SOURCES.md    منبع و کیفیت هر فایل صوتی
+  fonts/              فونت‌های اختصاصی پروژه (Azar)
+videos/
+  <سوره۳رقمی>_<نام سوره>_<آیه‌ی شروع>-<آیه‌ی پایان>/
+    _common.py        متن‌ها و فوتیج‌های مشترک بین نسخه‌ها
+    <نسخه>.py         هر نسخه (مثلاً یک قاری): صوت + زمان‌بندی
+    output/           ویدیوهای نهایی: <پروژه>_<نسخه>.mp4
+    notes.md          یادداشت‌ها و کارهای باقی‌مانده
+    build/            فایل‌های موقت (قابل حذف)
+```
+
+نمونه نام‌گذاری: `videos/065_at-talaq_002-003/` ← سوره ۶۵ (طلاق)، آیات ۲ تا ۳.
+
+## استایل‌ها
+
+در فایل هر نسخه با `STYLE = '...'` انتخاب می‌شود (پیش‌فرض: `noore_rezvan`). تعریف‌ها در `STYLES` داخل `tools/render.py` است.
+
+- **noore_rezvan** (استایل پیج): ترجمه با YekanBakh Bold، آیه با Azar، بدون «قرآن کریم» و نام قاری، آیدی ‎@noore_rezvan با آیکون‌های outline یوتیوب/اینستاگرام/تلگرام، و واترمارک ضدکپی (آیدی با ۸٪ شفافیت و حروف باز، ۷۰٪ عرض، در y=1600)، و زیرصدای آرام (درون ساخته‌شده، حدود ۲۶ دسی‌بل زیر تلاوت؛ تنظیم با `bed=dict(level_db=...)`)
+- **classic**: نسخه‌های اول (Kalameh + Naskh Qurani، با برچسب «قرآن کریم» و نام قاری)
+
+## ساختن ویدیو
+
+```bash
+DYLD_LIBRARY_PATH=/opt/homebrew/lib python3 tools/render.py videos/065_at-talaq_002-003/shakernejad.py
+```
+
+با `--preview` فقط چند فریم ثابت در `build/` ساخته می‌شود (برای بررسی سریع قبل از رندر کامل).
+
+## ویدیوی جدید
+
+1. یک پوشه در `videos/` با الگوی بالا بسازید (می‌شود پوشه‌ی یک پروژه‌ی قبلی را کپی کرد).
+2. فوتیج‌های جدید را در `library/footage/<موضوع>/` بگذارید و به `INDEX.csv` اضافه کنید.
+3. صوت را در `library/recitations/` یا `library/translations/` بگذارید.
+4. نقاط شروع هر عبارت را با `tools/transcribe.sh` پیدا کنید و در فایل نسخه وارد کنید.
+
+## پیش‌نیازها (روی این مک نصب شده‌اند)
+
+- `ffmpeg`، `libraqm` و `whisper-cpp` (از Homebrew)
+- پایتون با Pillow و numpy
+- فونت‌ها: YekanBakh، Montserrat، Kalameh-Black، wm_Naskh Qurani 93 (در `~/Library/Fonts`) و Azar (در `library/fonts`)
