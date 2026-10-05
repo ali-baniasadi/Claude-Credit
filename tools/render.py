@@ -10,6 +10,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FOOTAGE_DIR = os.path.join(ROOT, 'library', 'footage')
 W, H, FPS = 1080, 1920, 30
 FONTS = os.path.expanduser('~/Library/Fonts/')
+if not os.path.isdir(FONTS):
+    FONTS = os.path.join(ROOT, 'library', 'fonts') + '/'
 XFADE = 0.25         # cross-dissolve between scenes
 DEFAULT_AUDIO_FX = 'highpass=f=60'
 
